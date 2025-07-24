@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 
-	"github.com/mmc-projects/mmc_core/schemas"
+	"github.com/joshuaunity/mmc_core/schemas"
 )
 
 func ProduceLogMessage(level schemas.LogLevel, message string, service string, producer sarama.SyncProducer) error {
