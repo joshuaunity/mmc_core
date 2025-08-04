@@ -10,6 +10,7 @@ type User struct {
 	Email      string    `json:"email"`
 	Handle     string    `json:"handle"`
 	PhotoURL   string    `json:"photo_url"`
+	Password  string    `json:"password"`
 	Groups     []Group   `json:"groups"`
 	IsArchived bool      `json:"is_archived"`
 	IsActive   bool      `json:"is_active"`
