@@ -2,7 +2,7 @@ package schemas
 
 import "time"
 
-type CommentSchema struct {
+type Comment struct {
 	ID         string    `json:"id"`
 	User       string    `json:"user"`
 	ResourceId string    `json:"resource_id"`
@@ -12,12 +12,17 @@ type CommentSchema struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
-type LikeSchema struct {
-	User       string `json:"user"`
-	ResourceId string `json:"resource_id"`
+type Like struct {
+	ID         string    `json:"id"`
+	User       string    `json:"user"`
+	ResourceId string    `json:"resource_id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }
 
-type FollowSchema struct {
+type Follow struct {
 	Follower  string `json:"follower"`
 	Following string `json:"following"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }

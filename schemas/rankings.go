@@ -1,4 +1,4 @@
-package schemas
+package s
 
 import (
 	"encoding/json"
@@ -77,12 +77,34 @@ const (
 )
 
 // Ranking represents the ranking model in MongoDB
-type RankingSchema struct {
+type Ranking struct {
 	ID           string
 	User         string
 	DurationType RankingDurationType
-	Entries      []EntrySchema
+	Entries      []Entry
 	CreatedAt    time.Time
+}
+
+type NomineeList struct {
+	ID         string    `json:"id"`
+	UserID     string    `json:"user_id"`
+	Nominees   []Nominee `json:"nominees"`
+	IsApproved bool      `json:"is_approved"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
+type Nominee struct {
+	ID            string          `json:"id"` // ID is a string
+	Position      int             `json:"position"`
+	UserID        string          `json:"user_id"`
+	NomineeListID string          `json:"nominee_list_id"`
+	SongRef       string          `json:"song_ref"`
+	ArtistRefs    json.RawMessage `gorm:"type:jsonb" json:"artist_refs"`
+	AlbumRef      string          `json:"album_ref"`
+	Song          json.RawMessage `gorm:"type:jsonb" json:"song"` // Storing raw JSON in PostgreSQL
+	CreatedAt     time.Time       `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt     time.Time       `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
 // EntryStatus represents the status of an entry
@@ -180,30 +202,30 @@ type TopSongEntry struct {
 	Song  Song
 }
 
-// Entry represents an entry in a ranking
-type EntrySchema struct {
-	ID        string
-	Position  int
-	User      string
-	Ranking   string
-	SongRef   string
-	Status    EntryStatus
-	Song      Song
-	CreatedAt time.Time
-	UpdateAt  time.Time
+
+type Ranking struct {
+	ID           string    `json:"id"`
+	UserID       string    `json:"user_id"`
+	DurationType string    `json:"duration_type"`
+	RankingType  string    `json:"ranking_type"`
+	Entries      []Entry   `json:"entries"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
-type EntrySchemaBeta struct {
-	ID        string          `json:"id"`
-	Position  int             `json:"position"`
-	User      string          `json:"user"`
-	RankingID string          `json:"ranking_id"`
-	SongRef   string          `json:"song_ref"`
-	Status    string          `json:"status"`
-	Song      json.RawMessage `json:"song"`       // Use the Song struct for nested JSON
-	CreatedAt string          `json:"created_at"` // Use string if you prefer to handle it manually
-	UpdatedAt string          `json:"updated_at"` // Use string if you prefer to handle it manually
+type Entry struct {
+	ID         string    `json:"id"`
+	Position   int       `json:"position"`
+	UserID     string    `json:"user_id"`
+	RankingID  string    `json:"ranking_id"`
+	SongRef    string    `json:"songRef"`
+	ArtistRefs []string  `json:"artistRefs"`
+	Status     string    `json:"status"`
+	Song       Song      `gorm:"type:jsonb" json:"song"`
+	CreatedAt  time.Time `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt  time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
+
 
 // TrendingItem represents an item that is trending.
 type TrendingItem struct {
@@ -251,24 +273,24 @@ type Data struct {
 }
 
 // TrendingItem represents an item that is trending.
-type TrendingItemSchema struct {
+type TrendingItem struct {
 	ID     string  `json:"id"`     // Unique identifier for the trending item
 	Name   string  `json:"name"`   // Name of the trending item
 	Weight float64 `json:"weight"` // Weight of the trending item
 	Images []Image `json:"images"` // List of images associated with the trending item
 }
 
-type UserTrendingSchema struct {
+type UserTrending struct {
 	ID           string               `json:"id"`
 	User         string               `json:"user"`
 	DurationType string               `json:"duration_type"`
-	Songs        []TrendingItemSchema `json:"songs"`
-	Artists      []TrendingItemSchema `json:"artists"`
+	Songs        []TrendingItem `json:"songs"`
+	Artists      []TrendingItem `json:"artists"`
 	CreatedAt    string               `json:"createdAt"`
 	UpdatedAt    string               `json:"updatedAt"`
 }
 
-type RankingSearchSchema struct {
+type RankingSearch struct {
 	ID           string `json:"id"`
 	User         string `json:"user"`
 	DurationType string `json:"duration_type"`
@@ -277,7 +299,16 @@ type RankingSearchSchema struct {
 	UpdatedAt    string `json:"updated_at"`
 }
 
-type YearInMusicSchema struct {
+type YearInMusic struct {
+	ID        string          `json:"id"`
+	UserID    string          `json:"user_id"`
+	Year      int             `json:"year"`
+	Data      YearInMusicData `json:"data"`
+	CreatedAt time.Time       `json:"created_at"`
+	UpdatedAt time.Time       `json:"updated_at"`
+}
+
+type YearInMusicData struct {
 	MostNo1Artist           ArtistV2       `json:"most_no1_artist"`
 	MostNo1ArtistEntries    int            `json:"most_no1_artist_entries"`
 	MostTop3Artist          ArtistV2       `json:"most_top3_artist"`
@@ -295,7 +326,7 @@ type YearInMusicSchema struct {
 }
 
 // Streaming Serice Token
-type ServiceTokenSchema struct {
+type ServiceToken struct {
 	ID           string    `json:"id"`
 	UserID       string    `json:"user_id"`
 	Service      string    `json:"service"`
