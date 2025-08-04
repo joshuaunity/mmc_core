@@ -1,4 +1,4 @@
-package s
+package schemas
 
 import (
 	"encoding/json"
@@ -75,15 +75,6 @@ const (
 	ALBUMS      RankingType = "albums"
 	ALBUM_SONGS RankingType = "album_songs"
 )
-
-// Ranking represents the ranking model in MongoDB
-type Ranking struct {
-	ID           string
-	User         string
-	DurationType RankingDurationType
-	Entries      []Entry
-	CreatedAt    time.Time
-}
 
 type NomineeList struct {
 	ID         string    `json:"id"`
@@ -202,7 +193,6 @@ type TopSongEntry struct {
 	Song  Song
 }
 
-
 type Ranking struct {
 	ID           string    `json:"id"`
 	UserID       string    `json:"user_id"`
@@ -224,15 +214,6 @@ type Entry struct {
 	Song       Song      `gorm:"type:jsonb" json:"song"`
 	CreatedAt  time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"autoUpdateTime"`
-}
-
-
-// TrendingItem represents an item that is trending.
-type TrendingItem struct {
-	ID     string  `json:"id"`     // Unique identifier for the trending item
-	Name   string  `json:"name"`   // Name of the trending item
-	Weight float64 `json:"weight"` // Weight of the trending item
-	Images []Image `json:"images"` // List of images associated with the trending item
 }
 
 // EntryWeights defines the weights for different positions.
@@ -270,24 +251,6 @@ type Request struct {
 
 type Data struct {
 	Query string `json:"query"`
-}
-
-// TrendingItem represents an item that is trending.
-type TrendingItem struct {
-	ID     string  `json:"id"`     // Unique identifier for the trending item
-	Name   string  `json:"name"`   // Name of the trending item
-	Weight float64 `json:"weight"` // Weight of the trending item
-	Images []Image `json:"images"` // List of images associated with the trending item
-}
-
-type UserTrending struct {
-	ID           string               `json:"id"`
-	User         string               `json:"user"`
-	DurationType string               `json:"duration_type"`
-	Songs        []TrendingItem `json:"songs"`
-	Artists      []TrendingItem `json:"artists"`
-	CreatedAt    string               `json:"createdAt"`
-	UpdatedAt    string               `json:"updatedAt"`
 }
 
 type RankingSearch struct {

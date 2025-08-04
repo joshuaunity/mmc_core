@@ -1,5 +1,7 @@
 package schemas
 
+import "time"
+
 type NotifyType string
 
 const (
