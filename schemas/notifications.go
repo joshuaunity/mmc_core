@@ -27,6 +27,7 @@ const (
 	COMMENT        PushNotificationType = "comment"
 	FOLLOW         PushNotificationType = "follow"
 	RECOMMENDATION PushNotificationType = "recommendation"
+	NewRanking     PushNotificationType = "newRanking"
 )
 
 type WebNotificationData struct {
